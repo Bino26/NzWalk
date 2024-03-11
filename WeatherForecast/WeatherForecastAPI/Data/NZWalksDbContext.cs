@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeatherForecastAPI.Models.Domain;
+using NzWalkAPI.Models.Domain;
 
-namespace WeatherForecastAPI.Data
+namespace NzWalkAPI.Data
 {
     public class NZWalksDbContext:DbContext
     {

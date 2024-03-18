@@ -28,5 +28,17 @@ namespace NzWalkAPI.Controllers
 
 
         }
+        //Get RegionById
+        [Route("{id:Guid}")]
+        [HttpGet]
+        public IActionResult GetById([FromRoute]Guid id) { 
+            var region = dbContext.Regions.Find(id);
+            if (region == null)
+            {
+                return NotFound();
+            }
+            return Ok(region);
+        
+        }
     }
 }

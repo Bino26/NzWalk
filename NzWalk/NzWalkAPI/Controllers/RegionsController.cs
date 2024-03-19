@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NzWalkAPI.Data;
 using NzWalkAPI.Models.Domain;
 using NzWalkAPI.Models.DTO;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NzWalkAPI.Controllers
 {
@@ -30,6 +31,7 @@ namespace NzWalkAPI.Controllers
             var regionsDto = new List<RegionDto>();
             foreach (var region in regions)
             {
+                //use domain model to add
                 regionsDto.Add(new RegionDto()
                 {
                     Id = region.Id,
@@ -49,7 +51,7 @@ namespace NzWalkAPI.Controllers
         public IActionResult GetById([FromRoute]Guid id) {
 
             //Get Region from Database - AppDomain Models
-            var region = dbContext.Regions.FirstOrDefault(x=>x.Id==id);
+            var region = dbContext.Regions.FirstOrDefault(x => x.Id == id);
             if (region == null)
             {
                 return NotFound();
@@ -67,5 +69,35 @@ namespace NzWalkAPI.Controllers
             return Ok(regionDto);
         
         }
+        //Create Region
+        [HttpPost]
+        public IActionResult CreateRegion([FromBody] AddRegionDto addRegionDto)
+        {
+            //Map from Dto to Domain Model
+            var regionDomainModel = new Region
+            {
+                Name = addRegionDto.Name,
+                Code = addRegionDto.Code,
+                RegionImageUrl = addRegionDto.RegionImageUrl,
+            };
+           
+            //Create region to the database
+
+            dbContext.Regions.Add(regionDomainModel);
+            dbContext.SaveChanges();
+
+            //Map from Domain Model to Dto
+            var regionDto = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Name=regionDomainModel.Name,
+                Code=regionDomainModel.Code,
+                RegionImageUrl=regionDomainModel.RegionImageUrl,
+            };
+
+            return CreatedAtAction(nameof(GetById),new { id=regionDto.Id },regionDto);
+        }
+
+        
     }
 }

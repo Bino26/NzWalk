@@ -46,8 +46,8 @@ namespace NzWalkAPI.Controllers
 
         }
         //Get RegionById
-        [Route("{id:Guid}")]
         [HttpGet]
+        [Route("{id:Guid}")]
         public IActionResult GetById([FromRoute]Guid id) {
 
             //Get Region from Database - AppDomain Models
@@ -98,6 +98,50 @@ namespace NzWalkAPI.Controllers
             return CreatedAtAction(nameof(GetById),new { id=regionDto.Id },regionDto);
         }
 
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public IActionResult UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionDto updateRegionDto)
+        {
+            //Check if id exists in the database
+            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            };
+
+            //Dto from Domain Model
+            regionDomainModel.Code = updateRegionDto.Code;
+            regionDomainModel.Name = updateRegionDto.Name;
+            regionDomainModel.LengthInKm = updateRegionDto.LengthInKm;
+
+            dbContext.SaveChanges();
+
+            var regionDto = new UpdateRegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl,
+            };
+            return Ok(regionDto);
+        }
+        //Delete a region
+        [HttpDelete]
+        [Route("{id:Guid}")]
+
+        public IActionResult DeleteRegion([FromRoute] Guid id)
+        {
+            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            }
+              dbContext.Regions.Remove(regionDomainModel);
+              dbContext.SaveChanges();
+           
+            return Ok();
+        }
+        
         
     }
 }

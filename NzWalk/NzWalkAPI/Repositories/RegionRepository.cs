@@ -24,7 +24,7 @@ namespace NzWalkAPI.Repositories
         public async Task<Region> DeleteRegionAsync(Guid id)
         {
             var existingRegion = await nzWalkDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if(existingRegion != null)
+            if(existingRegion == null)
             {
                 return null;
             }
@@ -40,7 +40,7 @@ namespace NzWalkAPI.Repositories
 
         }
 
-        public async Task<Region> GetByIdAsync(Guid id)
+        public async Task<Region?> GetByIdAsync(Guid id)
         {
             return await nzWalkDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
         }

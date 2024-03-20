@@ -138,7 +138,7 @@ namespace NzWalkAPI.Controllers
         public async Task<IActionResult> DeleteRegion([FromRoute] Guid id)
         {
             var regionDomainModel = await regionRepository.DeleteRegionAsync(id);
-            return Ok(regionDomainModel);
+            return NoContent();
         }
         
         

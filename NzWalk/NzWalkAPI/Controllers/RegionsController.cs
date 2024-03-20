@@ -121,7 +121,7 @@ namespace NzWalkAPI.Controllers
             //Check if id exists in the database
             await regionRepository.UpdateRegionAsync(id,regionDomainModel);
 
-            var regionDto = new UpdateRegionDto
+            var regionDto = new RegionDto
             {
                 
                 Code = regionDomainModel.Code,

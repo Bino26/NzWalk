@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NzWalkAPI", "NzWalkAPI\NzWalkAPI.csproj", "{06F7532A-24C7-44C9-AC46-5D8B4B216ADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NzWalkAPI", "NzWalkAPI\NzWalkAPI.csproj", "{06F7532A-24C7-44C9-AC46-5D8B4B216ADF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

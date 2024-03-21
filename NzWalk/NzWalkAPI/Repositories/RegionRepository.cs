@@ -45,14 +45,14 @@ namespace NzWalkAPI.Repositories
             return await nzWalkDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Region> UpdateRegionAsync(Guid id , Region region)
+        public async Task<Region?> UpdateRegionAsync(Guid id , Region region)
         {
             var existingRegion =await nzWalkDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (existingRegion == null)
             {
                 return null;
             }
-            
+           
             existingRegion.LengthInKm = region.LengthInKm;
             existingRegion.RegionImageUrl = region.RegionImageUrl;
             existingRegion.Code = region.Code;

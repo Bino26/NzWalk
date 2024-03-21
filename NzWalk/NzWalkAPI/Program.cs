@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NzWalkAPI.Data;
+using NzWalkAPI.Mapping;
 using NzWalkAPI.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<NzWalkDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NzWalkConnectionString")));
 
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+
+builder.Services.AddAutoMapper(typeof (AutoMapperProfile));
 
 var app = builder.Build();
 

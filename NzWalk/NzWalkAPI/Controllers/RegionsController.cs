@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NzWalkAPI.CustomActionFilters;
 using NzWalkAPI.Data;
 using NzWalkAPI.Models.Domain;
 using NzWalkAPI.Models.DTO;
@@ -60,6 +61,7 @@ namespace NzWalkAPI.Controllers
         }
         //Create Region
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> CreateRegion([FromBody] AddRegionDto addRegionDto)
         {
             //Map from Dto to Domain Model
@@ -79,6 +81,7 @@ namespace NzWalkAPI.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionDto updateRegionDto)
         {
 

@@ -35,6 +35,23 @@ namespace NzWalkAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Difficulties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4077f7aa-7f29-4192-a859-da01a7e8d4cb"),
+                            Name = "Easy"
+                        },
+                        new
+                        {
+                            Id = new Guid("1dfd7167-06ea-432e-b9a6-2fd3cd04942a"),
+                            Name = "Medium"
+                        },
+                        new
+                        {
+                            Id = new Guid("07a2269a-c340-4613-aa94-b6b2345a52d1"),
+                            Name = "Hard"
+                        });
                 });
 
             modelBuilder.Entity("NzWalkAPI.Models.Domain.Region", b =>

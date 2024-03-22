@@ -15,6 +15,37 @@ namespace NzWalkAPI.Data
         public DbSet<Walk> Walks { get; set; }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //Seeding Data
+
+            var difficulties = new List<Difficulty>()
+            {
+                new Difficulty()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Easy"
+                },
+                new Difficulty()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Medium"
+                },
+                new Difficulty()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Hard"
+                },
+
+            };
+
+            
+            modelBuilder.Entity<Difficulty>().HasData(difficulties);
+        }
+
+
 
     }
     

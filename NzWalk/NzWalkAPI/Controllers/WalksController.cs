@@ -57,5 +57,15 @@ namespace NzWalkAPI.Controllers
             var walk = await walkRepository.DeleteWalkAsync(id);
             return NoContent();
         }
+        [HttpPut]
+        [Route("{id}")]
+        [ValidateModel]
+        public async Task<IActionResult> UpdateWalk([FromRoute]Guid id, [FromBody] UpdateWalkDto updateWalkDto)
+        {
+            var walkDomainModel = mapper.Map<Walk>(updateWalkDto);
+             await walkRepository.UpdateWalkAsync(id, walkDomainModel);
+            
+            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+        }
     }
 }

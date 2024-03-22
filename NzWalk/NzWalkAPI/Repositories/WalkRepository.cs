@@ -35,17 +35,28 @@ namespace NzWalkAPI.Repositories
 
         public async Task<List<Walk>> GetWalkAsync()
         {
-            return await nzWalkDbContext.Walks.ToListAsync();
+            return await nzWalkDbContext.Walks.Include("Region").ToListAsync();
         }
 
         public async Task<Walk?> GetWalkByIdAsync(Guid id)
         {
-            return await nzWalkDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
+            return await nzWalkDbContext.Walks.Include("Region").FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Walk> UpdateWalkAsync(Guid id, Walk walk)
+        public async Task<Walk> UpdateWalkAsync(Guid id, Walk walk)
         {
-            throw new NotImplementedException();
+            var existingWalk = await nzWalkDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingWalk == null)
+            {
+                return null;
+            }
+            existingWalk.Name = walk.Name;
+            existingWalk.Description = walk.Description;
+            existingWalk.LengthInKm = walk.LengthInKm;
+            existingWalk.RegionId = walk.RegionId;
+
+            await nzWalkDbContext.SaveChangesAsync();
+            return existingWalk;
         }
     }
 }

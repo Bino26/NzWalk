@@ -16,7 +16,7 @@ namespace NzWalkAPI.Models.DTO
         //Navigation Properties
 
         //public DifficultyDto Diffuclty { get; set; }
-        //public RegionDto Region { get; set; }
+        public RegionDto Region { get; set; }
     }
 }
 

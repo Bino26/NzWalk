@@ -113,9 +113,33 @@ namespace NzWalkAPI.Controllers
         public async Task<IActionResult> DeleteRegion([FromRoute] Guid id)
         {
             var regionDomainModel = await regionRepository.DeleteRegionAsync(id);
-            return NoContent();
+            var message = new
+            {
+                status = true,
+                message = "The  Regions has been deleted successfully"
+            };
+            return new JsonResult(message); ;
         }
+
+        //Delete all regions
+        [HttpDelete]
+
+        public async Task<IActionResult> DeleteAllRegions()
+        {
+            var regionDomainModel = await regionRepository.DeleteAllRegionsAsync();
+            var message = new
+            {
+                status = true,
+                message = "All Regions has been deleted sucessfully"
+            };
+            return new JsonResult(message);
+
+        }
+
+
+    }
         
         
     }
-}
+
+

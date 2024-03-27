@@ -21,6 +21,15 @@ namespace NzWalkAPI.Repositories
             return region;
         }
 
+
+        public async Task<List<Region>> DeleteAllRegionsAsync()
+        {
+            var regions = await nzWalkDbContext.Regions.ToListAsync();
+            nzWalkDbContext.Regions.RemoveRange(regions);
+            await nzWalkDbContext.SaveChangesAsync();
+            return null;
+        }
+
         public async Task<Region> DeleteRegionAsync(Guid id)
         {
             var existingRegion = await nzWalkDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
@@ -55,7 +64,7 @@ namespace NzWalkAPI.Repositories
            
             existingRegion.LengthInKm = region.LengthInKm;
             existingRegion.RegionImageUrl = region.RegionImageUrl;
-            existingRegion.Code = region.Code;
+            existingRegion.Description = region.Description;
             existingRegion.Name=region.Name;
 
             await nzWalkDbContext.SaveChangesAsync();

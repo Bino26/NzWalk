@@ -21,6 +21,13 @@ namespace NzWalkAPI.Repositories
             
         }
 
+        public async Task<List<Walk>> DeleteAllWalksAsync()
+        {
+            var walks = await nzWalkDbContext.Walks.ToListAsync();
+            nzWalkDbContext.Walks.RemoveRange(walks);
+            return null;
+        }
+
         public async Task<Walk> DeleteWalkAsync(Guid id)
         {
             var walk = await nzWalkDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);

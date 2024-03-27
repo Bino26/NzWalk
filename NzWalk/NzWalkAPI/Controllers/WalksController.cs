@@ -57,6 +57,20 @@ namespace NzWalkAPI.Controllers
             var walk = await walkRepository.DeleteWalkAsync(id);
             return NoContent();
         }
+       
+        [HttpDelete]
+
+        public async Task<IActionResult> DeleteAllRegions()
+        {
+            var regionDomainModel = await walkRepository.DeleteAllWalksAsync();
+            var message = new
+            {
+                status = true,
+                message = "All walks has been deleted"
+            };
+            return new JsonResult(message);
+
+        }
         [HttpPut]
         [Route("{id}")]
         [ValidateModel]

@@ -43,9 +43,11 @@ namespace NzWalkAPI.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetWalk()
+        // GET: /api/walks?filterOn=Name&filterQuery=Track&isAscending=true
+
+        public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending)
         {
-            var walks = await walkRepository.GetWalkAsync();
+            var walks = await walkRepository.GetWalkAsync(filterOn,filterQuery,sortBy,isAscending??true);
             return Ok(mapper.Map<List<WalkDto>>(walks));
 
         }

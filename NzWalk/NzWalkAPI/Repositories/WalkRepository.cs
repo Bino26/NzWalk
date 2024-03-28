@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NzWalkAPI.Data;
 using NzWalkAPI.Models.Domain;
+using System.Globalization;
 
 namespace NzWalkAPI.Repositories
 {
@@ -40,12 +41,37 @@ namespace NzWalkAPI.Repositories
             return walk;
         }
 
-        public async Task<List<Walk>> GetWalkAsync()
+        public async Task<List<Walk>> GetWalkAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null,bool isAscending = true)
         {
-            return await nzWalkDbContext.Walks
-                .Include("Difficulty")
-                .Include("Region")
-                .ToListAsync();
+            var walks = nzWalkDbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+            
+            //Filtering
+
+            if ((string.IsNullOrWhiteSpace(filterOn) == false) && (string.IsNullOrWhiteSpace(filterQuery) == false))
+            {
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = walks.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+            
+            // Sorting 
+            if (string.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.Name) : walks.OrderByDescending(x => x.Name);
+                }
+                else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
+                }
+            }
+
+            return  await walks.ToListAsync();   
+
+
+               
         }
 
         public async Task<Walk?> GetWalkByIdAsync(Guid id)

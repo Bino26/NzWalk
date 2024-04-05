@@ -48,7 +48,7 @@ namespace NzWalkAPI.Controllers
 
             //Get Region from Database - AppDomain Models
             var region = await regionRepository.GetByIdAsync(id);
-            if (region == null)
+            if (region is null)
             {
                 return NotFound();
             }

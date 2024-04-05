@@ -35,7 +35,7 @@ namespace NzWalkAPI.Controllers
         public async Task<IActionResult> GetWalkById([FromRoute]Guid id)
         {
             var walkDomainModel = await walkRepository.GetWalkByIdAsync(id);
-            if (walkDomainModel == null)
+            if (walkDomainModel is null)
             {
                 return NotFound();
             }

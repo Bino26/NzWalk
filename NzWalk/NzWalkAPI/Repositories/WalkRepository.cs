@@ -32,7 +32,7 @@ namespace NzWalkAPI.Repositories
         public async Task<Walk> DeleteWalkAsync(Guid id)
         {
             var walk = await nzWalkDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
-            if (walk == null)
+            if (walk is null)
             {
                 return null;
             }
@@ -85,7 +85,7 @@ namespace NzWalkAPI.Repositories
         public async Task<Walk> UpdateWalkAsync(Guid id, Walk walk)
         {
             var existingWalk = await nzWalkDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
-            if (existingWalk == null)
+            if (existingWalk is null)
             {
                 return null;
             }

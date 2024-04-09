@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NzWalkAPI.CustomActionFilters;
@@ -22,6 +23,7 @@ namespace NzWalkAPI.Controllers
         }
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles ="Writer")]
         public async Task<IActionResult> CreateWalk([FromBody] CreateWalkDto createWalkDto)
         {
             var walkDomainModel = mapper.Map<Walk>(createWalkDto);
@@ -32,6 +34,7 @@ namespace NzWalkAPI.Controllers
         }
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetWalkById([FromRoute]Guid id)
         {
             var walkDomainModel = await walkRepository.GetWalkByIdAsync(id);
@@ -44,6 +47,7 @@ namespace NzWalkAPI.Controllers
         }
         [HttpGet]
         // GET: /api/walks?filterOn=Name&filterQuery=Track&isAscending=true
+        [Authorize(Roles = "Reader")]
 
         public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending)
         {
@@ -53,7 +57,8 @@ namespace NzWalkAPI.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        
+        [Authorize(Roles = "Writer")]
+
         public async Task<IActionResult> DeleteWalk([FromRoute]Guid id)
         {
             var walk = await walkRepository.DeleteWalkAsync(id);
@@ -61,6 +66,7 @@ namespace NzWalkAPI.Controllers
         }
        
         [HttpDelete]
+        [Authorize(Roles = "Writer")]
 
         public async Task<IActionResult> DeleteAllRegions()
         {
@@ -76,6 +82,7 @@ namespace NzWalkAPI.Controllers
         [HttpPut]
         [Route("{id}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateWalk([FromRoute]Guid id, [FromBody] UpdateWalkDto updateWalkDto)
         {
             var walkDomainModel = mapper.Map<Walk>(updateWalkDto);

@@ -34,7 +34,7 @@ namespace NzWalkAPI.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "Writer,Reader")]
         public async Task<IActionResult> GetWalkById([FromRoute]Guid id)
         {
             var walkDomainModel = await walkRepository.GetWalkByIdAsync(id);
@@ -47,7 +47,7 @@ namespace NzWalkAPI.Controllers
         }
         [HttpGet]
         // GET: /api/walks?filterOn=Name&filterQuery=Track&isAscending=true
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "Writer,Reader")]
 
         public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending)
         {

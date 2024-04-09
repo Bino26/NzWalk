@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NzWalkAPI.Models.DTO;
@@ -79,8 +80,40 @@ namespace NzWalkAPI.Controllers
             return BadRequest("Username or Password is incorrect");
         }
 
-    }
+        //GetById
+        [HttpGet]
+        [Route("Getuser/{id}")]
+        [Authorize]
 
+        public async Task<IActionResult> GetUser([FromRoute]string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+
+            return BadRequest("User not found");
+        }
+
+        [HttpDelete]
+        [Route("Deleteuser/{id}")]
+        [Authorize]
+
+        public async Task<IActionResult> DeleteUser([FromRoute]string id)
+        {
+            var user = userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await userManager.DeleteAsync(user);
+               
+
+            }
+
+            return BadRequest("User not found");
+        }
+
+    }
 
 
 

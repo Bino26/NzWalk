@@ -102,10 +102,11 @@ namespace NzWalkAPI.Controllers
 
         public async Task<IActionResult> DeleteUser([FromRoute]string id)
         {
-            var user = userManager.FindByIdAsync(id);
+            var user = await  userManager.FindByIdAsync(id);
             if (user != null)
             {
                 await userManager.DeleteAsync(user);
+                return Ok("User has been deleted successfuly");
                
 
             }

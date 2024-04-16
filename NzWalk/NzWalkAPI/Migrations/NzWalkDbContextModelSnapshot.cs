@@ -34,7 +34,7 @@ namespace NzWalkAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Difficulties");
+                    b.ToTable("Difficulties", (string)null);
 
                     b.HasData(
                         new
@@ -76,7 +76,7 @@ namespace NzWalkAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("NzWalkAPI.Models.Domain.Walk", b =>
@@ -111,7 +111,7 @@ namespace NzWalkAPI.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("Walks");
+                    b.ToTable("Walks", (string)null);
                 });
 
             modelBuilder.Entity("NzWalkAPI.Models.Domain.Walk", b =>

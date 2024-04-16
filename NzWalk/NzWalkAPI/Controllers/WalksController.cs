@@ -86,9 +86,9 @@ namespace NzWalkAPI.Controllers
         public async Task<IActionResult> UpdateWalk([FromRoute]Guid id, [FromBody] UpdateWalkDto updateWalkDto)
         {
             var walkDomainModel = mapper.Map<Walk>(updateWalkDto);
-             await walkRepository.UpdateWalkAsync(id, walkDomainModel);
+             var result = await walkRepository.UpdateWalkAsync(id, walkDomainModel);
             
-            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+            return Ok(result);
         }
     }
 }

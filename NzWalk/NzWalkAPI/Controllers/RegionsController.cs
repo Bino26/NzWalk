@@ -101,10 +101,9 @@ namespace NzWalkAPI.Controllers
 
             var regionDomainModel = mapper.Map<Region>(updateRegionDto);
             //Check if id exists in the database
-            await regionRepository.UpdateRegionAsync(id,regionDomainModel);
+            var result = await regionRepository.UpdateRegionAsync(id,regionDomainModel);
 
-            var regionDto = mapper.Map<RegionDto>(regionDomainModel);
-            return Ok(regionDto);
+            return Ok(result);
         }
         //Delete a region
         [HttpDelete]

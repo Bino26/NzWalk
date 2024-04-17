@@ -41,13 +41,13 @@ namespace NzWalkAPI.Repositories
             return walk;
         }
 
-        public async Task<List<Walk>> GetWalkAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null,bool isAscending = true)
+        public async Task<List<Walk>> GetWalkAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null,bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
             var walks = nzWalkDbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
             
             //Filtering
 
-            if ((string.IsNullOrWhiteSpace(filterOn) == false) && (string.IsNullOrWhiteSpace(filterQuery) == false))
+            if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
             {
                 if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
                 {
@@ -68,10 +68,14 @@ namespace NzWalkAPI.Repositories
                 }
             }
 
-            return  await walks.ToListAsync();   
+
+            // Pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+
+            return await walks.Skip(skipResults).Take(pageSize).ToListAsync();
 
 
-               
+
         }
 
         public async Task<Walk?> GetWalkByIdAsync(Guid id)

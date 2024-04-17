@@ -49,9 +49,9 @@ namespace NzWalkAPI.Controllers
         // GET: /api/walks?filterOn=Name&filterQuery=Track&isAscending=true
         [Authorize(Roles = "Writer,Reader")]
 
-        public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending)
+        public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var walks = await walkRepository.GetWalkAsync(filterOn,filterQuery,sortBy,isAscending??true);
+            var walks = await walkRepository.GetWalkAsync(filterOn,filterQuery,sortBy,isAscending??true, pageNumber,pageSize);
             return Ok(mapper.Map<List<WalkDto>>(walks));
 
         }

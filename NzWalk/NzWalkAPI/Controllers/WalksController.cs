@@ -6,6 +6,7 @@ using NzWalkAPI.CustomActionFilters;
 using NzWalkAPI.Models.Domain;
 using NzWalkAPI.Models.DTO;
 using NzWalkAPI.Repositories;
+using System.Text.Json;
 
 namespace NzWalkAPI.Controllers
 {
@@ -15,11 +16,13 @@ namespace NzWalkAPI.Controllers
     {
         private readonly IWalkRepository walkRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<WalksController> loggerwalks;
 
-        public WalksController(IWalkRepository walkRepository,IMapper mapper)
+        public WalksController(IWalkRepository walkRepository,IMapper mapper,ILogger<WalksController>loggerwalks)
         {
             this.walkRepository = walkRepository;
             this.mapper = mapper;
+            this.loggerwalks = loggerwalks;
         }
         [HttpPost]
         [ValidateModel]
@@ -51,7 +54,9 @@ namespace NzWalkAPI.Controllers
 
         public async Task<IActionResult> GetWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery]bool?isAscending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
+            loggerwalks.LogInformation("GetWalk Method has been invoked");
             var walks = await walkRepository.GetWalkAsync(filterOn,filterQuery,sortBy,isAscending??true, pageNumber,pageSize);
+            loggerwalks.LogInformation($"Finished GetWalk Request with data : {JsonSerializer.Serialize(walks)}");
             return Ok(mapper.Map<List<WalkDto>>(walks));
 
         }

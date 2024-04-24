@@ -8,6 +8,7 @@ using NzWalkAPI.Models.Domain;
 using NzWalkAPI.Models.DTO;
 using NzWalkAPI.Repositories;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
 
 namespace NzWalkAPI.Controllers
 {
@@ -21,22 +22,27 @@ namespace NzWalkAPI.Controllers
 
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<RegionsController> loggerRegions;
 
-        public RegionsController(IRegionRepository regionRepository, IMapper mapper)
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper,ILogger<RegionsController>loggerRegions)
         {
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.loggerRegions = loggerRegions;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            loggerRegions.LogInformation("GetAll Method  has been invoked");
             //Get Data from Database - AppDomain Models
             var regions = await regionRepository.GetAllAsync();
+            loggerRegions.LogInformation($"Finished GetWalk Request with data : {JsonSerializer.Serialize(regions)}");
 
             //Map Domain Models to DTOs
             var regionsDto = mapper.Map<List<RegionDto>>(regions);
             
+
             return Ok(regionsDto);
 
 
